@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Paginate\Paginator;
+//paginatorの追加
 
 class AppServiceProvider extends ServiceProvider
 {
