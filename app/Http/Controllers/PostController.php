@@ -1,5 +1,5 @@
 <?php
-//コメント
+
 
 namespace App\Http\Controllers;
 
