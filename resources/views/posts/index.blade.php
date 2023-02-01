@@ -15,6 +15,7 @@
             </div>
             @endforeach
         </div>
+        <a href='/posts/create'>create</a>
         <div class 'pagination'>{{ $posts->links()}}</div>
     </body>
 </html>
