@@ -6,12 +6,28 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Requests\PostRequest;
 use App\Models\Post;
+use App\Models\Category;
 
 class PostController extends Controller
 {
     public function index(Post $post)
     {
-      return view('posts/index')->with(['posts' => $post->getPaginateByLimit(5)]);
+        $client = new \GuzzleHttp\Client();
+        
+        $url = 'https://teratail.com/api/v1/questions';
+        
+        $response = $client->request(
+            'GET',
+            $url,
+            ['Bearer'=>config('services.teratail.token')]
+            );
+            
+        $questions = json_decode($response->getBody(),true);
+        
+        return view('posts/index')->with([
+            'posts' => $post->getPaginateByLimit(3),
+            'questions' => $questions['questions'],
+            ]);
     }
 
     
@@ -21,9 +37,9 @@ class PostController extends Controller
  //'post'はbladeファイルで使う変数。中身の$postはid=1のPostインスタンス。
 }
 
-public function create()
+public function create(Category $category)
 {
-    return view('posts/create');
+    return view('posts/create')->with(['categories' => $category->get()]);
 }
 
 public function store(PostRequest $request, Post $post)
